@@ -21,21 +21,7 @@ void  ATankPlayerController::BeginPlay()
 
 void  ATankPlayerController::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
-	ATank	* PossesedTank = GetControlledTank();	
-	if (PossesedTank == nullptr)
-	{
-		if (isTankPossessed)
-		{
-			UE_LOG(LogTemp, Error, TEXT("Tick: Tank is not possessed!"));
-			isTankPossessed = false;
-		}		
-	}
-	else if (!isTankPossessed)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Tick: Tank %s is possessed!"), *PossesedTank->GetName());
-		isTankPossessed = true;
-	}
+	Super::Tick(DeltaTime);	
 }
 
 
