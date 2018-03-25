@@ -52,9 +52,12 @@ void ATankPlayerController::AimTowardsCrosshair()
 	FVector HitLocation;	
 	if (GetSightRayHitLocation(HitLocation))
 	{
-		UE_LOG(LogTemp, Error, TEXT("HitLocation: %s"), *HitLocation.ToString());
+		UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *HitLocation.ToString());
 	}
-	//Get world location of linetrace through crosshair
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("No HitLocation: %s"), *HitLocation.ToString());
+	}
 	// if it hits landscape 
 		//Tell controlled tank to aium at this point
 }
@@ -65,44 +68,50 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 	// Get the Size of the Screen in Pixel
 	GetViewportSize(ViewportSizeX, ViewportSizeY);	
 	// Create the 2D Vector pointing on the Crosshair
-	FVector2D ScreenLocation = { ViewportSizeX*CrossHairXLocation,  ViewportSizeY*CrossHairYLocation };
-	// De-project the Screen Coordinates into World Coordinates
-	FVector WorldLocation;
-	FVector WorldDirection;
-	DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, WorldLocation, WorldDirection);	
+	FVector2D ScreenLocation = { ViewportSizeX*CrossHairXLocation,  ViewportSizeY*CrossHairYLocation };		
 #ifdef DEBUG_OUTPUT
 	//Debuging output
 	UE_LOG(LogTemp, Warning, TEXT("Screen size: %d x  %d"), ViewportSizeX, ViewportSizeY);
-	UE_LOG(LogTemp, Warning, TEXT("Screen Location: %s, WorldLocation: %s, WorldDirection: %s"), *ScreenLocation.ToString(), *WorldLocation.ToString(), *WorldDirection.ToString());
-	//DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Red, false, 1, 0, 1);
-#endif		
+#endif	
+	// De-project the Screen Coordinates into World Coordinates
+	FVector LookDirection;
+	if (GetLookDirection(ScreenLocation, LookDirection))
+	{
+		if (GetLookVectorHitLocation(LookDirection, OutHitLocation))
+		{
+			return true;
+		}		
+	}
+	return false;
+}
+
+
+bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector& OutHitLocation) const
+{
 	// Definition of Start and End point for Line Trace: Start is the WorldLocation of the Crosshair
-	FVector TraceStart = WorldLocation;
+	APlayerCameraManager * PlayerCameraManager = UGameplayStatics::GetPlayerCameraManager(GetWorld(), 0);
+	FVector TraceStart = PlayerCameraManager->GetCameraLocation();
 	// Endpoint is the Vector along the WorldDirection, but increased to maximum range
-	FVector TraceEnd = WorldLocation + WorldDirection * MaxRange;
+	FVector TraceEnd = TraceStart + LookDirection * MaxRange;
 	// Creating the Collision Paramters - TODO set this parameters if needed
 	FCollisionQueryParams CollisionParams;
 	// This will be our OUT Parameter for LineTrace
 	FHitResult HitResult;
 	// Hit detection against the line from crosshair
+#ifdef DEBUG_OUTPUT
+	DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Red, false, 1, 0, 1);
+#endif // DEBUG_OUTPUT
+
 	GetWorld()->LineTraceSingleByChannel(
 		HitResult,
 		TraceStart,
 		TraceEnd,
 		ECollisionChannel(ECollisionChannel::ECC_Visibility),
 		CollisionParams
-		);
-	// Actor wich can be hit by line trace
-	AActor * HitActor = HitResult.GetActor();
-#ifdef DEBUG_OUTPUT
-	// Wich location is been hit with our line trace
-	//FString HitLocation = HitResult.Location.ToString();
-	// Wich Actor is been hit with our line Trace
-	//FString ActorName = HitResult.GetActor()->GetName();
-	//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s, Actor: %s"), *HitLocation, *ActorName);
-#endif // DEBUG_OUT
+	);	
 	// Output result
 	OutHitLocation = HitResult.Location;
+	AActor * HitActor = HitResult.GetActor();
 	if (HitActor != nullptr)
 	{
 		return true;
@@ -113,3 +122,13 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 	}	
 }
 
+bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation,FVector& LookDirection) const
+{
+	FVector WorldLocation;
+	bool wasSuccesfull = DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, WorldLocation, LookDirection);
+#ifdef DEBUG_OUTPUT
+	//Debuging output
+	UE_LOG(LogTemp, Warning, TEXT("Screen Location: %s, WorldLocation: %s, WorldDirection: %s"), *ScreenLocation.ToString(), *WorldLocation.ToString(), *LookDirection.ToString());
+#endif	
+	return wasSuccesfull;
+}

@@ -30,9 +30,6 @@ public:
 	ATankPlayerController();	
 
 private:
-	// Maximal Range
-	float MaxRange = 100000.f;
-	
 	bool isTankPossessed = false;
 
 	// Start the tank moving the barrel so that a shot would hit where the crosshair intersects the world
@@ -41,9 +38,17 @@ private:
 	// Determine where the crosshair hit the world
 	bool GetSightRayHitLocation(FVector& OutHitLocation) const;
 
+	bool GetLookVectorHitLocation(FVector LookDirection, FVector & OutHitLocation) const;
+
+	bool GetLookDirection(FVector2D ScreenLocation, FVector & LookDirection) const;
+
 	UPROPERTY(EditAnywhere)
 		float CrossHairXLocation = 0.5f;
 
 	UPROPERTY(EditAnywhere)
 		float CrossHairYLocation = 0.3333f;
+
+	// Maximal Range
+	UPROPERTY(EditAnywhere)
+		float MaxRange = 100000.f;
 };
