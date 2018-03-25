@@ -27,9 +27,23 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	
 	//deafult constructor
-	ATankPlayerController();
+	ATankPlayerController();	
 
 private:
-	bool isTankPossessed = false;
+	// Maximal Range
+	float MaxRange = 100000.f;
 	
+	bool isTankPossessed = false;
+
+	// Start the tank moving the barrel so that a shot would hit where the crosshair intersects the world
+	void AimTowardsCrosshair();	
+
+	// Determine where the crosshair hit the world
+	bool GetSightRayHitLocation(FVector& OutHitLocation) const;
+
+	UPROPERTY(EditAnywhere)
+		float CrossHairXLocation = 0.5f;
+
+	UPROPERTY(EditAnywhere)
+		float CrossHairYLocation = 0.3333f;
 };
