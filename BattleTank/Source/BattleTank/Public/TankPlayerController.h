@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Tank.h"
+//#include "Tank.h"
 #include "BattleTank.h"
 #include "Class.h"
 #include "GameFramework/Actor.h"
@@ -11,6 +11,8 @@
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
 
+
+class ATank; //Forward Declaration
 /**
  * 
  */

@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAIController.h"
-//#include "Kismet/GameplayStatics.h"
+#include "Tank.h"
 
 
 ATank * ATankAIController::GetAIControlledTank() const
@@ -12,6 +12,18 @@ ATank * ATankAIController::GetAIControlledTank() const
 ATank * ATankAIController::GetPlayerTank() const
 {
 	return Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());		
+}
+
+void  ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	if (GetPlayerTank())
+	{
+		//TODO Move towards Player Tank
+		GetAIControlledTank()->AimAt(GetPlayerTank()->GetTargetLocation());
+		//TODO Fire if ready
+	}
+	
 }
 
 void  ATankAIController::BeginPlay()
