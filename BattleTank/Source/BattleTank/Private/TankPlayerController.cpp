@@ -22,6 +22,7 @@ void  ATankPlayerController::BeginPlay()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Tank %s is possessed!"), *PossesedTank->GetName());
 		isTankPossessed = true;
+		SetupInputComponent();
 	}
 }
 

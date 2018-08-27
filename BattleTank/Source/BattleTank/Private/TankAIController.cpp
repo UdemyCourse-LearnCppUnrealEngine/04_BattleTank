@@ -22,7 +22,6 @@ void  ATankAIController::Tick(float DeltaTime)
 		//TODO Move towards Player Tank
 		GetAIControlledTank()->AimAt(GetPlayerTank()->GetTargetLocation());
 		ATank * PossesedTank = GetAIControlledTank();
-		UE_LOG(LogTemp, Warning, TEXT("AITank %s is aiming at %s on %s"), *PossesedTank->GetName(), *GetPlayerTank()->GetName(), *GetPlayerTank()->GetTargetLocation().ToString());
 		//TODO Fire if ready
 	}
 	

@@ -12,7 +12,9 @@
 #include "TankPlayerController.generated.h"
 
 
-class ATank; //Forward Declaration
+//Forward Declarations
+class ATank; 
+class UInputComponent;
 /**
  * 
  */
@@ -53,4 +55,5 @@ private:
 	// Maximal Range
 	UPROPERTY(EditAnywhere)
 		float MaxRange = 100000.f;
+
 };
