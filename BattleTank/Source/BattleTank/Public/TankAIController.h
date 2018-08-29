@@ -29,7 +29,7 @@ private:
 
 	virtual void Tick(float DeltaTime) override;
 
-	ATank * GetAIControlledTank() const;	
+	//ATank * GetAIControlledTank() const;	
 
-	ATank * GetPlayerTank() const;
+	//ATank * GetPlayerTank() const;
 };
