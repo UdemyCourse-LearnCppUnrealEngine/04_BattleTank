@@ -11,6 +11,7 @@ class UTankBarrel;
 class UTankTurret;
 class UTankAimingComponent;
 class AProjectile;
+class UTankMovementComponent;
 
 // TODO In case anyone else is having this issue, we make some changes in the video"Working Round Awkward Bugs" (Lecture 150 at time of writing), which fixed the issue for me.
 // The solution was to change the Collision Presets on the Turret and Barrel in the Tank blueprint, to “NoCollision” from “BlockAllDynamic”.Note, you may have to remove hidecategories = ('Collision') 
@@ -35,6 +36,9 @@ public:
 
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
+
+	UPROPERTY(BlueprintReadOnly, Category = Movement)
+	UTankMovementComponent* TankMovementComponent = nullptr;
 
 private:	
 	// Sets default values for this pawn's properties

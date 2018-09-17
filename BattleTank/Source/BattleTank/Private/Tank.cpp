@@ -5,6 +5,7 @@
 #include "TankTurret.h"
 #include "Projectile.h"
 #include "TankAimingComponent.h"
+#include "TankMovementComponent.h"
 
 
 void ATank::SetBarrelReference(UTankBarrel * BarrelToSet)
@@ -25,6 +26,7 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("AimingComponent"));
+	TankMovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("MovementComponent"));
 }
 
 // Called when the game starts or when spawned
