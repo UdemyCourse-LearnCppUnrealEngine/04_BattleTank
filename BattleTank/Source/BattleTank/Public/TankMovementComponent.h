@@ -2,13 +2,12 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+//#include "CoreMinimal.h"
 #include "GameFramework/NavMovementComponent.h"
 #include "TankMovementComponent.generated.h"
 
 // Forward Declarations
-//class UTankTrack
-
+class UTankTrack;
 /**
  * Responsible for driving tanks tracks
  */
@@ -25,13 +24,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Input)
 	void IntendMove(float Throw);
 
-	//UFUNCTION(BlueprintCallable, Category = Movement)
-	//void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet);
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet);
 
 	//// Sets default values for this component's properties
 	//UTankMovementComponent();
 
 private:	
-	//UTankTrack* LeftTrack = nullptr;
-	//UTankTrack* RightTrack = nullptr;
+	UTankTrack* LeftTrack = nullptr;
+	UTankTrack* RightTrack = nullptr;
 };
