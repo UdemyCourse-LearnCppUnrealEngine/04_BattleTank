@@ -8,29 +8,22 @@
 
 void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet)
 {
-	if (!LeftTrackToSet || !RightTrackToSet) { return;}
 	LeftTrack = LeftTrackToSet;
-	RightTrack = LeftTrackToSet;
+	RightTrack = RightTrackToSet;
 }
 
-void UTankMovementComponent::IntendMove(float Throw)
+void UTankMovementComponent::IntendMoveForward(float Throw)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Intend move forward throw: %f"), Throw);
+	if (!LeftTrack || !RightTrack) { return; }
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
 	//TODO Prevent double speed due double control use
 }
 
-/*
-UTankMovementComponent::UTankMovementComponent()
+void UTankMovementComponent::IntendTurnRight(float Throw)
 {
-	auto TankName = GetOwner()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("UTankMovementComponent contrcuctor at %s"), *TankName);
+	if (!LeftTrack || !RightTrack) { return; }
+	LeftTrack->SetThrottle(Throw);
+	RightTrack->SetThrottle(-Throw);
+	//TODO Prevent double speed due double control use
 }
-
-// Called when the game starts
-void UTankMovementComponent::BeginPlay()
-{
-	Super::BeginPlay();
-}
-*/
