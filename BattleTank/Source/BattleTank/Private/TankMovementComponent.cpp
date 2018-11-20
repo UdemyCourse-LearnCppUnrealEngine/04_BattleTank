@@ -3,6 +3,7 @@
 
 
 #include "TankMovementComponent.h"
+#include "Tank.h"
 #include "TankTrack.h"
 
 
@@ -10,6 +11,22 @@ void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* 
 {
 	LeftTrack = LeftTrackToSet;
 	RightTrack = RightTrackToSet;
+}
+
+void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
+{
+	/*auto TankName = GetOwner()->GetName();
+	auto MoveVelocityString = MoveVelocity.GetSafeNormal().ToString();
+	UE_LOG(LogTemp, Warning, TEXT("%s is moving with velosity %s"), *TankName, *MoveVelocityString);*/
+	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
+	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
+	
+	float ForwardThrow = FVector::DotProduct(TankForward, AIForwardIntention);
+	IntendMoveForward(ForwardThrow);
+
+	auto CrossProduct = FVector::CrossProduct(TankForward, AIForwardIntention);
+	float RightThrow = CrossProduct.Z;
+	IntendTurnRight(RightThrow);
 }
 
 void UTankMovementComponent::IntendMoveForward(float Throw)
@@ -27,3 +44,5 @@ void UTankMovementComponent::IntendTurnRight(float Throw)
 	RightTrack->SetThrottle(-Throw);
 	//TODO Prevent double speed due double control use
 }
+
+

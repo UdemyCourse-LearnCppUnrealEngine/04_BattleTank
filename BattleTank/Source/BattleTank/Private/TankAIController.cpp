@@ -21,7 +21,9 @@ void  ATankAIController::Tick(float DeltaTime)
 	ATank * PossesedTank = Cast<ATank>(GetPawn());
 	if (PlayerTank)
 	{
-		//TODO Move towards Player Tank
+		//Move towards Player Tank
+		MoveToActor(PlayerTank, AcceptanceRadius);//TODO Check if AcceptanceRadius is in cm
+		//Aim towards player tank
 		PossesedTank->AimAt(PlayerTank->GetTargetLocation());		
 		// TODO do not fire every frame
 		UE_LOG(LogTemp, Warning, TEXT("%s is firing at player tank %s"), *PossesedTank->GetName(), *PlayerTank->GetName());

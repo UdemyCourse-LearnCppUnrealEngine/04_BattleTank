@@ -28,8 +28,6 @@ private:
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float DeltaTime) override;
-
-	//ATank * GetAIControlledTank() const;	
-
-	//ATank * GetPlayerTank() const;
+	
+	float AcceptanceRadius = 3000.f;
 };
