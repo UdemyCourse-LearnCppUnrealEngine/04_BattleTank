@@ -25,43 +25,38 @@ class BATTLETANK_API ATank : public APawn
 public:
 	void AimAt(FVector HitLocation);
 
-	UFUNCTION(BlueprintCallable, Category = Gameplay)
+	UFUNCTION(BlueprintCallable, Category = "Gameplay")
 	void Fire();
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReference(UTankBarrel * BarrelToSet);
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetTurretReference(UTankTurret * TurretToSet);
-
 protected:
+	UPROPERTY(BlueprintReadOnly, Category = "Fire")
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
-	UPROPERTY(BlueprintReadOnly, Category = Movement)
-	UTankMovementComponent* TankMovementComponent = nullptr;
+	//UPROPERTY(BlueprintReadOnly, Category = "Movement")
+	//UTankMovementComponent* TankMovementComponent = nullptr;
 
 private:	
 	// Sets default values for this pawn's properties
 	ATank();
 
 	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	//virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;	
+	//virtual void BeginPlay() override;	
 
-	UPROPERTY(EditAnywhere, Category = Setup) // TODO EditAnywhere =>EditDefaultsOnly
+	UPROPERTY(EditAnywhere, Category = "Setup") // TODO EditAnywhere =>EditDefaultsOnly
 		TSubclassOf<AProjectile> ProjectileBlueprint;
 
-	UPROPERTY(EditAnywhere, Category = Firing)
+	UPROPERTY(EditAnywhere, Category = "Firing")
 		float LaunchSpeed = 4000;
 
-	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 		float ReloadTimeinSeconds = 14;
 	
 	double LastFireTime = 0;
 
 	//Local barrel reference for spawn of projectile
-	UTankBarrel * Barrel = nullptr;
+	UTankBarrel * Barrel = nullptr; //TODO Remove
 		
 };
